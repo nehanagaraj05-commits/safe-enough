@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safe Enough: cybersecurity, minus the jargon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap">
+<style>
+/* Safe Enough: styles. Layout, type and colour tokens live here. */
+:root{color-scheme:light;--bg:#d9d5cc;--ink:#151515;--soft:#69655d;--line:rgba(21,21,21,.2);--c:#8a82c4;--f:'Inter Tight','Helvetica Neue',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.65 var(--f);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 40px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.label{font:500 11px/1.5 var(--f);letter-spacing:.1em;text-transform:uppercase}
+
+header .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-top:24px;padding-bottom:6px}
+.logo{font:600 21px var(--f);letter-spacing:-.03em;text-decoration:none}
+nav.top{display:flex;gap:60px}
+nav.top a{font:500 11px var(--f);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:4px 0;border-bottom:1px solid transparent}
+nav.top a:hover{border-color:var(--ink)}
+.by{justify-self:end;text-align:right;font:500 11px/1.5 var(--f);letter-spacing:.1em;text-transform:uppercase}
+.by span{display:block;color:var(--soft)}
+
+.homegrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;padding:44px 0 80px;align-items:start}
+.titlecol{position:sticky;top:28px}
+.titleblock span.ln{display:block;font:500 clamp(64px,8.4vw,124px)/.9 var(--f);letter-spacing:-.05em;text-transform:uppercase}
+.lastrow{display:flex;align-items:flex-end;gap:22px}
+.lastrow p{margin:0 0 .5em;font:400 20px/1.2 var(--f);letter-spacing:-.01em;max-width:7.5em}
+
+.entry{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:30px;padding:40px 0;border-top:1px solid var(--line);text-decoration:none}
+.entry:first-child{border-top:0;padding-top:0}
+.eimg{aspect-ratio:4/5;overflow:hidden;background:#222;position:relative}
+.eimg svg{width:100%;height:100%;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.entry:hover .eimg svg{transform:scale(1.05)}
+.etext{display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.date{font:500 10.5px var(--f);letter-spacing:.1em;text-transform:uppercase}
+.etitle{font:500 29px/1.08 var(--f);letter-spacing:-.025em;margin:12px 0 20px}
+.entry:hover .etitle{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:8px 16px;border-radius:99px;font:500 12px var(--f)}
+.epara{margin:0;font-size:13px;line-height:1.55;color:var(--soft);display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;border-top:1px solid var(--line);padding:56px 0 90px;scroll-margin-top:20px}
+.about h2{font:500 clamp(52px,7vw,96px)/.95 var(--f);letter-spacing:-.05em;margin:14px 0 0}
+.about .lead{font:400 clamp(22px,2.4vw,30px)/1.3 var(--f);letter-spacing:-.015em;margin:0 0 22px}
+.about .sub{color:var(--soft);font-size:14px;margin:0}
+
+article{display:grid;grid-template-columns:250px minmax(0,720px);gap:80px;justify-content:center;padding:36px 0 90px;align-items:start}
+.rail{position:sticky;top:28px;font-size:14px}
+.back{display:inline-block;font:500 11px var(--f);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:2px;margin-bottom:34px}
+.num{font:500 72px/1 var(--f);letter-spacing:-.05em}
+.num small{font-size:20px;letter-spacing:0;color:var(--soft);margin-left:4px}
+.rail dl{margin:22px 0 30px}
+.rail dt{font:500 10.5px var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-top:14px}
+.rail dd{margin:2px 0 0}
+.more h3{font:500 10.5px var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:0 0 6px}
+.more a{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);text-decoration:none;font-size:14px;line-height:1.35}
+.more a span{color:var(--soft);font-variant-numeric:tabular-nums}
+.more a:hover,.more a[aria-current]{font-weight:600}
+.who{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--soft)}
+.who b{display:block;color:var(--ink);font-size:16px;font-weight:600}
+.main h1{font:500 clamp(38px,5vw,64px)/1.02 var(--f);letter-spacing:-.04em;margin:0 0 34px}
+.still{aspect-ratio:16/9;overflow:hidden;margin-bottom:44px;background:#222}
+.still svg{width:100%;height:100%;display:block}
+.body p{margin:0 0 20px;font-size:19px;line-height:1.7}
+.body h2{font:500 27px/1.15 var(--f);letter-spacing:-.025em;margin:46px 0 10px}
+.body code{font:500 15px var(--f);background:rgba(21,21,21,.08);padding:2px 7px;border-radius:4px;word-break:break-all}
+.tips{list-style:none;margin:8px 0 24px;padding:0;border-bottom:1px solid var(--line)}
+.tips li{padding:13px 0 13px 30px;border-top:1px solid var(--line);position:relative}
+.tips li::before{content:"";position:absolute;left:2px;top:1.15em;width:9px;height:9px;background:var(--c)}
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:54px}
+.pager a{font:500 11px var(--f);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);border-radius:99px;padding:10px 20px}
+.pager a:hover{background:var(--ink);color:#fff}
+
+footer .wrap{border-top:1px solid var(--line);padding-top:22px;padding-bottom:50px;display:flex;justify-content:space-between;gap:20px;font-size:13px;color:var(--soft)}
+#wipe{position:fixed;inset:0;z-index:60;pointer-events:none;background:#151515;transform:translateY(101%);visibility:hidden}
+[hidden]{display:none!important}
+
+@media (max-width:1000px){
+ .wrap{padding:0 22px}
+ header .wrap{grid-template-columns:1fr auto;row-gap:10px}
+ nav.top{grid-column:1/-1;grid-row:2;justify-content:center;gap:40px;border-top:1px solid var(--line);padding-top:10px}
+ .homegrid,.about{grid-template-columns:1fr;gap:34px}
+ .titlecol{position:static}
+ .titleblock span.ln{font-size:clamp(60px,19vw,120px)}
+ .entry{grid-template-columns:1fr;gap:18px}
+ .entry:first-child{padding-top:10px}
+ .eimg{aspect-ratio:16/10}
+ article{grid-template-columns:1fr;gap:26px}
+ .rail{position:static;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 26px}
+ .rail .back{margin:0}.rail .num{font-size:34px}.rail .num small{font-size:14px}
+ .rail dl{display:flex;gap:22px;margin:0}.rail dt,.rail dd{margin:0}.rail dt{display:none}
+ .rail .more,.rail .who{display:none}
+ footer .wrap{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){.eimg svg{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<linearGradient id="gHero" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d5af1"/><stop offset=".55" stop-color="#7a4de0"/><stop offset="1" stop-color="#ee6aa0"/></linearGradient>
+<linearGradient id="gShield" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ee0e6"/><stop offset="1" stop-color="#3a7bd5"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#5ee0e6" stop-opacity=".5"/><stop offset="1" stop-color="#5ee0e6" stop-opacity="0"/></radialGradient>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b2c27"/><stop offset="1" stop-color="#b9654f"/></linearGradient>
+<linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b5320"/><stop offset="1" stop-color="#c9a24a"/></linearGradient>
+<linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f3f45"/><stop offset="1" stop-color="#5d9aa0"/></linearGradient>
+<linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3560"/><stop offset="1" stop-color="#8a82c4"/></linearGradient>
+<linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2d4a3a"/><stop offset="1" stop-color="#7fae92"/></linearGradient>
+<pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r=".6" fill="#fff" opacity=".14"/></pattern>
+</defs>
+<symbol id="st-hero" viewBox="0 0 240 100">
+ <rect width="240" height="100" fill="url(#gHero)"/>
+ <circle cx="196" cy="26" r="44" fill="#fff" opacity=".10"/><circle cx="196" cy="26" r="28" fill="#fff" opacity=".12"/>
+ <path d="M0 58C40 38 82 78 132 56S204 38 240 54V100H0Z" fill="#fff" opacity=".12"/>
+ <path d="M0 72C50 54 92 90 142 70S212 58 240 68V100H0Z" fill="#fff" opacity=".16"/>
+ <path d="M0 85C45 75 100 97 150 85S212 79 240 87V100H0Z" fill="#fff" opacity=".24"/>
+ <path d="M178 8L200 15V32C200 44 191 51 178 56C165 51 156 44 156 32V15Z" fill="#fff" opacity=".96"/>
+ <path d="M168.5 31.5l6.2 6.2 11-12.5" fill="none" stroke="#5b4fe0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol id="st-p1" viewBox="0 0 240 100">
+ <rect width="240" height="100" fill="url(#g1)"/><path d="M0 80C40 66 82 94 132 78S204 68 240 80V100H0Z" fill="#fff" opacity=".2"/>
+ <rect x="92" y="38" width="56" height="38" rx="4" fill="#fff" opacity=".95"/>
+ <path d="M92 42L120 62L148 42" fill="none" stroke="#e0524f" stroke-width="2.2" stroke-linejoin="round"/>
+ <path d="M120 0V32" stroke="#fff" stroke-width="1.2"/><path d="M120 32v8a7 7 0 1 1-7-7" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+</symbol>
+<symbol id="st-p2" viewBox="0 0 240 100"><rect width="240" height="100" fill="url(#g2)"/><path d="M0 80C40 66 82 94 132 78S204 68 240 80V100H0Z" fill="#fff" opacity=".2"/><rect x="76" y="36" width="88" height="28" rx="7" fill="#fff" opacity=".95"/><g fill="#4a3a14"><circle cx="90" cy="50" r="3.2"/><circle cx="102" cy="50" r="3.2"/><circle cx="114" cy="50" r="3.2"/><circle cx="126" cy="50" r="3.2"/><circle cx="138" cy="50" r="3.2"/></g><rect x="148" y="42" width="1.8" height="16" fill="#c9a24a"/></symbol>
+<symbol id="st-p3" viewBox="0 0 240 100">
+ <rect width="240" height="100" fill="url(#g3)"/><path d="M0 80C40 66 82 94 132 78S204 68 240 80V100H0Z" fill="#fff" opacity=".2"/>
+ <g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><path d="M108.4 58.2A18 18 0 0 1 131.6 58.2"/><path d="M100.7 49A30 30 0 0 1 139.3 49"/><path d="M93 39.8A42 42 0 0 1 147 39.8"/></g>
+ <circle cx="120" cy="72" r="4.5" fill="#fff"/>
+</symbol>
+<symbol id="st-p4" viewBox="0 0 240 100">
+ <rect width="240" height="100" fill="url(#g4)"/><path d="M0 80C40 66 82 94 132 78S204 68 240 80V100H0Z" fill="#fff" opacity=".2"/>
+ <rect x="98" y="10" width="44" height="80" rx="8" fill="#3a2fa8" fill-opacity=".5" stroke="#fff" stroke-width="1.6"/>
+ <g fill="#fff" opacity=".93"><rect x="105" y="28" width="10" height="13" rx="2"/><rect x="117.5" y="28" width="10" height="13" rx="2"/><rect x="130" y="28" width="10" height="13" rx="2"/><rect x="105" y="47" width="10" height="13" rx="2"/><rect x="117.5" y="47" width="10" height="13" rx="2"/><rect x="130" y="47" width="10" height="13" rx="2"/></g>
+ <circle cx="120" cy="75" r="5.5" fill="#5be3a0"/><path d="M117.3 75l2 2 3.6-4" fill="none" stroke="#3a2fa8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol id="st-p5" viewBox="0 0 240 100">
+ <rect width="240" height="100" fill="url(#g5)"/><path d="M0 80C40 66 82 94 132 78S204 68 240 80V100H0Z" fill="#fff" opacity=".2"/>
+ <rect x="98" y="20" width="44" height="16" rx="8" fill="#fff" opacity=".95"/><circle cx="134" cy="28" r="6" fill="#2fa36b"/>
+ <rect x="98" y="42" width="44" height="16" rx="8" fill="#fff" opacity=".35"/><circle cx="106" cy="50" r="6" fill="#fff"/>
+ <rect x="98" y="64" width="44" height="16" rx="8" fill="#fff" opacity=".95"/><circle cx="134" cy="72" r="6" fill="#2fa36b"/>
+</symbol>
+</svg>
+<div id="wipe" aria-hidden="true"></div>
+<header><div class="wrap">
+  <a class="logo" href="#/">safe enough.</a>
+  <nav class="top" aria-label="Main"><a href="#/">Posts</a><a href="#about">About</a></nav>
+  <div class="by">by Neha<span>CSE student, TJIT Bengaluru</span></div>
+</div></header>
+<main class="wrap">
+<section id="home">
+  <div class="homegrid">
+    <div class="titlecol">
+      <h1 class="sr">Safe Enough: cybersecurity, minus the jargon</h1>
+      <div class="titleblock">
+        <span class="ln" aria-hidden="true">Cyber–</span>
+        <span class="ln" aria-hidden="true">Secu–</span>
+        <div class="lastrow"><span class="ln" aria-hidden="true">Rity</span><p>Plain-language guides to staying safe online.</p></div>
+      </div>
+    </div>
+    <div class="list">
+<a class="entry" href="#p1" style="--c:#b9654f"><div class="eimg"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p1"/></svg></div><div class="etext"><div><div class="date">2 Nov 2026</div><h2 class="etitle">How phishing actually works</h2><span class="pill">Read <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 3v5H3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><p class="epara">Phishing is a fake message made to look like it came from someone you trust, so that you’ll click, log in or pay without thinking. It doesn’t work because people are careless. It works because the message is built to make you rush.</p></div></a>
+<a class="entry" href="#p2" style="--c:#c9a24a"><div class="eimg"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p2"/></svg></div><div class="etext"><div><div class="date">5 Nov 2026</div><h2 class="etitle">Passwords: length beats cleverness</h2><span class="pill">Read <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 3v5H3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><p class="epara">Most passwords fail for two reasons: they’re easy to guess, or they’re used on more than one site. Fixing both matters more than adding a symbol.</p></div></a>
+<a class="entry" href="#p3" style="--c:#5d9aa0"><div class="eimg"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p3"/></svg></div><div class="etext"><div><div class="date">8 Nov 2026</div><h2 class="etitle">Public Wi-Fi: how risky is it really?</h2><span class="pill">Read <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 3v5H3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><p class="epara">Public Wi-Fi has a scary reputation. The truth is more boring: it’s safer than it used to be, but there are still a few real traps.</p></div></a>
+<a class="entry" href="#p4" style="--c:#8a82c4"><div class="eimg"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p4"/></svg></div><div class="etext"><div><div class="date">11 Nov 2026</div><h2 class="etitle">Two-factor authentication: what it stops, and what it doesn’t</h2><span class="pill">Read <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 3v5H3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><p class="epara">Two-factor authentication (2FA) means that a password alone isn’t enough. You also need a second proof, usually something you have, like your phone.</p></div></a>
+<a class="entry" href="#p5" style="--c:#7fae92"><div class="eimg"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p5"/></svg></div><div class="etext"><div><div class="date">14 Nov 2026</div><h2 class="etitle">What app permissions really mean</h2><span class="pill">Read <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 3v5H3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><p class="epara">Every permission is a door into your phone. Plenty of apps ask for more doors than they need, and most people tap “Allow” without reading.</p></div></a>
+    </div>
+  </div>
+  <div class="about" id="about">
+    <div><div class="label">About</div><h2>Neha</h2></div>
+    <div>
+      <p class="lead">I’m a computer science student at T. John Institute of Technology in Bengaluru. I’m learning cybersecurity alongside my degree, and I write these posts to explain the basics in plain language.</p>
+      <p class="sub">CSE, VTU, 2024–28 batch. A beginner’s guide based on widely published security advice, not professional consulting.</p>
+    </div>
+  </div>
+</section>
+<article id="p1" hidden style="--c:#b9654f">
+  <aside class="rail">
+    <a class="back" href="#/">Back to all posts</a>
+    <div class="num">01<small>/05</small></div>
+    <dl><dt>Published</dt><dd>2 Nov 2026</dd><dt>Reading time</dt><dd>4 min read</dd></dl>
+    <nav class="more" aria-label="All posts"><h3>All posts</h3><a href="#p1" aria-current="page"><span>01</span>How phishing actually works</a><a href="#p2"><span>02</span>Passwords: length beats cleverness</a><a href="#p3"><span>03</span>Public Wi-Fi: how risky is it?</a><a href="#p4"><span>04</span>Two-factor authentication</a><a href="#p5"><span>05</span>What app permissions mean</a></nav>
+    <div class="who"><b>Neha</b>CSE student, TJIT Bengaluru</div>
+  </aside>
+  <div class="main">
+    <h1>How phishing actually works</h1>
+    <div class="still"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p1"/></svg></div>
+    <div class="body"><p>Phishing is a fake message made to look like it came from someone you trust, so that you’ll click, log in or pay without thinking. It doesn’t work because people are careless. It works because the message is built to make you rush.</p>
+  <h2>The usual disguises</h2>
+  <p>A bank saying your “KYC is expiring” or your account will be blocked. A courier asking for a small fee to deliver a parcel. A job offer that needs a registration payment. A friend’s hacked account sending a link. Every one of them pushes the same three buttons: <strong>fear, urgency or reward</strong>.</p>
+  <h2>How to read a link</h2>
+  <p>The real website is the part just before the first single slash. Take <code>sbi.co.in.verify-login.com/update</code>. The site you’d actually land on is <strong>verify-login.com</strong>. The bank’s name at the front is only decoration.</p>
+  <h2>What to do</h2>
+  <ul class="tips">
+    <li>Don’t click. Open the app or type the website address yourself.</li>
+    <li>No genuine bank asks for your OTP, PIN or CVV, ever.</li>
+    <li>Pause on anything urgent. A real problem will still be there in ten minutes.</li>
+    <li>If you’ve been scammed in India, call <strong>1930</strong> or report at cybercrime.gov.in as quickly as you can, since speed matters for stopping a payment.</li>
+  </ul></div>
+    <div class="pager"><span></span><a href="#p2">Next post</a></div>
+  </div>
+</article>
+<article id="p2" hidden style="--c:#c9a24a">
+  <aside class="rail">
+    <a class="back" href="#/">Back to all posts</a>
+    <div class="num">02<small>/05</small></div>
+    <dl><dt>Published</dt><dd>5 Nov 2026</dd><dt>Reading time</dt><dd>4 min read</dd></dl>
+    <nav class="more" aria-label="All posts"><h3>All posts</h3><a href="#p1"><span>01</span>How phishing actually works</a><a href="#p2" aria-current="page"><span>02</span>Passwords: length beats cleverness</a><a href="#p3"><span>03</span>Public Wi-Fi: how risky is it?</a><a href="#p4"><span>04</span>Two-factor authentication</a><a href="#p5"><span>05</span>What app permissions mean</a></nav>
+    <div class="who"><b>Neha</b>CSE student, TJIT Bengaluru</div>
+  </aside>
+  <div class="main">
+    <h1>Passwords: length beats cleverness</h1>
+    <div class="still"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p2"/></svg></div>
+    <div class="body"><p>Most passwords fail for two reasons: they’re easy to guess, or they’re used on more than one site. Fixing both matters more than adding a symbol.</p>
+  <h2>Why “Password@123” fails</h2>
+  <p>When a site forces a capital, a number and a symbol, people satisfy the rules in the laziest way: capital first, number last, <em>@</em> for <em>a</em>. Attackers know this, and their tools try those patterns first.</p>
+  <h2>Length wins</h2>
+  <p>NIST, the US standards body whose password guidance is widely followed, now recommends allowing long passwords and not forcing composition rules or regular changes. Four random words, like <em>purple-tiffin-rainy-bus</em>, are easy to remember and far harder to guess than a short “complex” one.</p>
+  <h2>Reuse is the real danger</h2>
+  <p>When one site is breached, attackers try the same email and password on other sites. This is called credential stuffing. If every site has its own password, one breach stays one breach.</p>
+  <ul class="tips">
+    <li>Use a password manager so you only have to remember one strong password.</li>
+    <li>Make your email password the strongest and most unique one, since it resets everything else.</li>
+    <li>Check whether your email appeared in a known breach at haveibeenpwned.com.</li>
+  </ul></div>
+    <div class="pager"><a href="#p1">Previous</a><a href="#p3">Next post</a></div>
+  </div>
+</article>
+<article id="p3" hidden style="--c:#5d9aa0">
+  <aside class="rail">
+    <a class="back" href="#/">Back to all posts</a>
+    <div class="num">03<small>/05</small></div>
+    <dl><dt>Published</dt><dd>8 Nov 2026</dd><dt>Reading time</dt><dd>4 min read</dd></dl>
+    <nav class="more" aria-label="All posts"><h3>All posts</h3><a href="#p1"><span>01</span>How phishing actually works</a><a href="#p2"><span>02</span>Passwords: length beats cleverness</a><a href="#p3" aria-current="page"><span>03</span>Public Wi-Fi: how risky is it?</a><a href="#p4"><span>04</span>Two-factor authentication</a><a href="#p5"><span>05</span>What app permissions mean</a></nav>
+    <div class="who"><b>Neha</b>CSE student, TJIT Bengaluru</div>
+  </aside>
+  <div class="main">
+    <h1>Public Wi-Fi: how risky is it really?</h1>
+    <div class="still"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p3"/></svg></div>
+    <div class="body"><p>Public Wi-Fi has a scary reputation. The truth is more boring: it’s safer than it used to be, but there are still a few real traps.</p>
+  <h2>What’s better than before</h2>
+  <p>Most websites now use HTTPS, which means what you send is encrypted between your phone and the site, even on a café network. The people running the network can usually see <em>which</em> sites you visit, but not the contents of a properly secured page.</p>
+  <h2>What can still go wrong</h2>
+  <p>A fake hotspot with a name close to the real one is the classic trap, sometimes called an evil twin. Others are login pages that ask for far more personal detail than they need, security warnings people click past, and phones that haven’t been updated.</p>
+  <h2>What about a VPN?</h2>
+  <p>A VPN hides your traffic from the local network, but it moves your trust to the VPN company instead. It helps in some situations. It isn’t magic.</p>
+  <ul class="tips">
+    <li>Ask staff for the exact network name before connecting.</li>
+    <li>Never click through a certificate or security warning.</li>
+    <li>For banking, use your mobile data if you’re unsure.</li>
+    <li>Turn off auto-connect to open networks and keep your phone updated.</li>
+  </ul></div>
+    <div class="pager"><a href="#p2">Previous</a><a href="#p4">Next post</a></div>
+  </div>
+</article>
+<article id="p4" hidden style="--c:#8a82c4">
+  <aside class="rail">
+    <a class="back" href="#/">Back to all posts</a>
+    <div class="num">04<small>/05</small></div>
+    <dl><dt>Published</dt><dd>11 Nov 2026</dd><dt>Reading time</dt><dd>4 min read</dd></dl>
+    <nav class="more" aria-label="All posts"><h3>All posts</h3><a href="#p1"><span>01</span>How phishing actually works</a><a href="#p2"><span>02</span>Passwords: length beats cleverness</a><a href="#p3"><span>03</span>Public Wi-Fi: how risky is it?</a><a href="#p4" aria-current="page"><span>04</span>Two-factor authentication</a><a href="#p5"><span>05</span>What app permissions mean</a></nav>
+    <div class="who"><b>Neha</b>CSE student, TJIT Bengaluru</div>
+  </aside>
+  <div class="main">
+    <h1>Two-factor authentication: what it stops, and what it doesn’t</h1>
+    <div class="still"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p4"/></svg></div>
+    <div class="body"><p>Two-factor authentication (2FA) means that a password alone isn’t enough. You also need a second proof, usually something you have, like your phone.</p>
+  <h2>The common kinds</h2>
+  <p><strong>SMS codes</strong> are better than nothing, but they can be intercepted through a SIM swap or tricked out of you. <strong>Authenticator apps</strong> generate codes on your phone without sending them over the network, which is stronger. <strong>Security keys and passkeys</strong> are the strongest, because they only work on the genuine website, so a fake page can’t collect them.</p>
+  <h2>What 2FA doesn’t stop</h2>
+  <p>If a scammer calls pretending to be your bank and you read out the OTP, 2FA hasn’t failed. You’ve handed over the second lock yourself. Some fake login pages can also pass your code to the real site in real time.</p>
+  <ul class="tips">
+    <li>Turn it on for your email first, since email can reset your other accounts.</li>
+    <li>Prefer an authenticator app over SMS when a site offers both.</li>
+    <li>Never share an OTP with anyone, even someone who sounds official.</li>
+    <li>Save the backup codes somewhere safe in case you lose your phone.</li>
+  </ul></div>
+    <div class="pager"><a href="#p3">Previous</a><a href="#p5">Next post</a></div>
+  </div>
+</article>
+<article id="p5" hidden style="--c:#7fae92">
+  <aside class="rail">
+    <a class="back" href="#/">Back to all posts</a>
+    <div class="num">05<small>/05</small></div>
+    <dl><dt>Published</dt><dd>14 Nov 2026</dd><dt>Reading time</dt><dd>3 min read</dd></dl>
+    <nav class="more" aria-label="All posts"><h3>All posts</h3><a href="#p1"><span>01</span>How phishing actually works</a><a href="#p2"><span>02</span>Passwords: length beats cleverness</a><a href="#p3"><span>03</span>Public Wi-Fi: how risky is it?</a><a href="#p4"><span>04</span>Two-factor authentication</a><a href="#p5" aria-current="page"><span>05</span>What app permissions mean</a></nav>
+    <div class="who"><b>Neha</b>CSE student, TJIT Bengaluru</div>
+  </aside>
+  <div class="main">
+    <h1>What app permissions really mean</h1>
+    <div class="still"><svg viewBox="0 0 240 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#st-p5"/></svg></div>
+    <div class="body"><p>Every permission is a door into your phone. Plenty of apps ask for more doors than they need, and most people tap “Allow” without reading.</p>
+  <h2>The ones worth a second look</h2>
+  <p>Location, microphone, camera, contacts, and photos or files. The classic warning sign is a simple torch or wallpaper app that asks for your contacts. Ask what the app would need that for.</p>
+  <h2>“While using” beats “always”</h2>
+  <p>Most apps only need access while you’re using them. Choose <em>while using the app</em> or <em>ask every time</em>, and save <em>always</em> for things like navigation or fitness tracking that genuinely run in the background.</p>
+  <h2>Do a two-minute audit</h2>
+  <p>Open your phone’s settings and look for Privacy or App permissions (the exact name varies by phone). Go through each permission and see which apps have it. Remove anything you don’t recognise or don’t use.</p>
+  <ul class="tips">
+    <li>Install apps from the official store only.</li>
+    <li>Delete apps you no longer use, since each one is another door.</li>
+    <li>Read what an app asks for the first time it asks, not after.</li>
+  </ul></div>
+    <div class="pager"><a href="#p4">Previous</a><a href="#/">All posts</a></div>
+  </div>
+</article>
+</main>
+<footer><div class="wrap"><span>Written by Neha. A beginner’s guide, not professional security advice.</span><span>2026</span></div></footer>
+<script>
+/* Safe Enough: page switching, About scroll and the page transition. */
+(function(){
+  var ids=['p1','p2','p3','p4','p5'], home=document.getElementById('home'), base='Safe Enough',
+      wipe=document.getElementById('wipe'), busy=false,
+      reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(id){
+    if(ids.indexOf(id)<0) id='';
+    home.hidden=!!id;
+    ids.forEach(function(i){document.getElementById(i).hidden=(i!==id)});
+    document.title=id?document.querySelector('#'+id+' h1').textContent+' | '+base:base+': cybersecurity, minus the jargon';
+    window.scrollTo(0,0);
+    try{history.replaceState(null,'',id?'#'+id:'#/')}catch(e){}
+  }
+  function toAbout(){var a=document.getElementById('about');if(a)a.scrollIntoView({behavior:reduce?'auto':'smooth'})}
+  function go(id,after){
+    if(reduce||busy){show(id);if(after)after();return}
+    busy=true;
+    var ease='transform .42s cubic-bezier(.7,0,.2,1)';
+    wipe.style.visibility='visible'; wipe.style.transition='none'; wipe.style.transform='translateY(101%)'; void wipe.offsetWidth;
+    wipe.style.transition=ease; wipe.style.transform='translateY(0)';
+    setTimeout(function(){show(id);if(after)after();wipe.style.transform='translateY(-101%)'},450);
+    setTimeout(function(){wipe.style.transition='none';wipe.style.transform='translateY(101%)';wipe.style.visibility='hidden';busy=false},920);
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a) return;
+    e.preventDefault();
+    var key=(a.getAttribute('href')||'').replace(/^#\/?/,'');
+    if(key==='about'){ if(home.hidden) go('',toAbout); else toAbout(); return }
+    go(key);
+  });
+  show((location.hash||'').replace(/^#\/?/,''));
+})();
+</script>
+</body>
+</html>
